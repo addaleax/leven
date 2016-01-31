@@ -1,9 +1,10 @@
 /* eslint-disable no-nested-ternary */
 'use strict';
-var arr = [];
-var charCodeCache = [];
 
 module.exports = function (a, b) {
+	var arr = [];
+	var charCodeCache = [];
+
 	if (a === b) {
 		return 0;
 	}
@@ -26,13 +27,20 @@ module.exports = function (a, b) {
 	var i = 0;
 	var j = 0;
 
-	while (i < aLen) {
-		charCodeCache[i] = a.charCodeAt(i);
-		arr[i] = ++i;
+	if (typeof a.charCodeAt !== 'function') {
+		charCodeCache = a;
+		while (i < aLen) {
+			arr[i] = ++i;
+		}
+	} else {
+		while (i < aLen) {
+			charCodeCache[i] = a.charCodeAt(i);
+			arr[i] = ++i;
+		}
 	}
 
 	while (j < bLen) {
-		bCharCode = b.charCodeAt(j);
+		bCharCode = typeof b.charCodeAt === 'undefined' ? b[j] : b.charCodeAt(j);
 		tmp = j++;
 		ret = j;
 
